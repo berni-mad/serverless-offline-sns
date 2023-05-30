@@ -187,6 +187,16 @@ class ServerlessOfflineSns {
       const topicArn = get(["Properties", "TopicArn", "Ref"], value);
       const topicName = get(["Properties", "TopicName"], resources[topicArn]);
       const fnName = this.getFunctionName(resourceName);
+
+      if(!fnName){
+
+        this.debug("resourceName",resourceName);
+        this.debug("topicName",topicName)
+        this.debug("topicArn",topicArn);
+        this.debug("filterPolicy",filterPolicy)
+        
+
+      }
       subscriptions.push({
         fnName,
         options: {
@@ -241,11 +251,12 @@ class ServerlessOfflineSns {
         }
       } else {
         const subscriptions = this.getResourceSubscriptions(this.serverless);
-        subscriptions.forEach((subscription) =>
+        subscriptions.forEach((subscription) =>{
+          if (!subscription) return 
           subscribePromises.push(
             this.subscribeFromResource(subscription, this.location)
           )
-        );
+          });
         Object.keys(this.serverless.service.functions).map((fnName) => {
           const fn = this.serverless.service.functions[fnName];
           subscribePromises.push(
@@ -279,15 +290,30 @@ class ServerlessOfflineSns {
   }
 
   private async subscribeFromResource(subscription, location) {
-    this.debug("subscribe: " + subscription.fnName);
+  //  this.debug("subscribe: " + subscription.fnName);
     this.log(
       `Creating topic: "${subscription.options.topicName}" for fn "${subscription.fnName}"`
     );
     const data = await this.snsAdapter.createTopic(
       subscription.options.topicName
     );
-    this.debug("topic: " + JSON.stringify(data));
+  //  this.debug("topic: " + JSON.stringify(data));
     const fn = this.serverless.service.functions[subscription.fnName];
+
+
+
+    if(!fn || !subscription.fnName){
+      this.debug("ERROR!",JSON.stringify(subscription));
+    }
+
+    if(!fn || !subscription.fnName){
+
+      this.debug("STACKTRACKE",Error().stack);
+      this.debug("CREATING HANDLER",JSON.stringify(data));
+      this.debug
+      return ;
+    }
+    
     await this.snsAdapter.subscribe(
       fn,
       this.createHandler(subscription.fnName, fn, location),
@@ -310,6 +336,8 @@ class ServerlessOfflineSns {
   public async subscribe(serverless, fnName, snsConfig, lambdasLocation) {
     this.debug("subscribe: " + fnName);
     const fn = serverless.service.functions[fnName];
+
+    this.debug("fn",JSON.stringify(fn));
 
     if (!fn.runtime) {
       fn.runtime = serverless.service.provider.runtime;
@@ -342,6 +370,10 @@ class ServerlessOfflineSns {
     this.log(`Creating topic: "${topicName}" for fn "${fnName}"`);
     const data = await this.snsAdapter.createTopic(topicName);
     this.debug("topic: " + JSON.stringify(data));
+
+    if(!fn || !fnName){
+      this.debug("ERROR, topic!",topicName);
+    }
     await this.snsAdapter.subscribe(
       fn,
       this.createHandler(fnName, fn, lambdasLocation),
@@ -351,7 +383,7 @@ class ServerlessOfflineSns {
   }
 
   public async subscribeQueue(queueUrl, snsConfig) {
-    this.debug("subscribe: " + queueUrl);
+    //this.debug("subscribe: " + queueUrl);
     let topicName = "";
 
     // https://serverless.com/framework/docs/providers/aws/events/sns#using-a-pre-existing-topic
@@ -383,6 +415,12 @@ class ServerlessOfflineSns {
   }
 
   public createHandler(fnName, fn, location) {
+
+    if(!fn){
+      console.log("ERROR! location:",location);
+     // this.debug("STACKTRACKE",Error().stack);
+
+    }
     if (!fn.runtime || fn.runtime.startsWith("nodejs")) {
       return this.createJavascriptHandler(fn, location);
     } else {
