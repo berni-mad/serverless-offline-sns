@@ -54,7 +54,7 @@ export class SNSServer implements ISNSServer {
     this.app.all("/", (req, res) => {
     //  this.debug("hello request");
      // this.debug(JSON.stringify(req.body));
-      this.debug(req.body.Action);
+      this.debug("ACTION:",req.body.Action);
       if (req.body.Action === "ListSubscriptions") {
         this.debug(
           "sending: " + xml(this.listSubscriptions(), { indent: "\t" })
@@ -106,7 +106,7 @@ export class SNSServer implements ISNSServer {
           })
         );
       }
-      this.debug(JSON.stringify(this.subscriptions));
+     // this.debug(JSON.stringify(this.subscriptions));
     });
   }
 
@@ -167,8 +167,8 @@ export class SNSServer implements ISNSServer {
   }
 
   public unsubscribe(arn) {
-    this.debug(JSON.stringify(this.subscriptions));
-    this.debug("unsubscribing: " + arn);
+    //this.debug(JSON.stringify(this.subscriptions));
+   // this.debug("unsubscribing: " + arn);
     this.subscriptions = this.subscriptions.filter(
       (sub) => sub.SubscriptionArn !== arn
     );

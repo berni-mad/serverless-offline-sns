@@ -301,11 +301,9 @@ class ServerlessOfflineSns {
     const fn = this.serverless.service.functions[subscription.fnName];
 
 
-    console.log("BERNI")
 
     if(!fn || !subscription.fnName){
       this.debug("ERROR!",JSON.stringify(subscription));
-      this.debug()
     }
 
     if(!fn || !subscription.fnName){
