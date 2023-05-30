@@ -1,5 +1,5 @@
 {
-  "name": "serverless-offline-sns",
+  "name": "serverless-offline-sns-berni",
   "version": "1.0.0",
   "description": "Serverless plugin to run a local SNS server and call lambdas with events notifications.",
   "main": "dist/index.js",
@@ -12,7 +12,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mj1618/serverless-offline-sns.git"
+    "url": "git+https://github.com/berni-mad/serverless-offline-sns.git"
   },
   "keywords": [
     "serverless-plugin",
@@ -27,9 +27,9 @@
   "author": "Berni-mad <matthew.stephen.james@gmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/mj1618/serverless-offline-sns/issues"
+    "url": "https://github.com/berni-mad/serverless-offline-sns/issues"
   },
-  "homepage": "https://github.com/mj1618/serverless-offline-sns#readme",
+  "homepage": "https://github.com/berni-mad/serverless-offline-sns#readme",
   "dependencies": {
     "aws-sdk": "^2.1083.0",
     "body-parser": "^1.19.0",

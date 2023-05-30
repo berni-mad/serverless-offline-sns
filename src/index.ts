@@ -311,9 +311,7 @@ class ServerlessOfflineSns {
     this.debug("subscribe: " + fnName);
     const fn = serverless.service.functions[fnName];
 
-  this.debug("fn",fn);
-
-
+  this.debug("fn",JSON.stringify(fn));
 
     if (!fn.runtime) {
       fn.runtime = serverless.service.provider.runtime;
@@ -387,7 +385,11 @@ class ServerlessOfflineSns {
   }
 
   public createHandler(fnName, fn, location) {
-    if (!fn.runtime || fn.runtime.startsWith("nodejs")) {
+
+    if(!fn){
+      console.log("ERROR!",fnName);
+    }
+    if (!fn|| !fn.runtime || fn.runtime.startsWith("nodejs")) {
       return this.createJavascriptHandler(fn, location);
     } else {
       return () => this.createProxyHandler(fnName, fn, location);
