@@ -129,7 +129,8 @@ export class SNSAdapter implements ISNSAdapter {
   public async subscribe(fn, getHandler, arn, snsConfig) {
     arn = this.convertPseudoParams(arn);
     const subscribeEndpoint = this.baseSubscribeEndpoint + "/" + fn.name;
-    this.debug("subscribe: " + fn.name + " " + arn);
+
+    this.debug("fn: " + fn);
     this.debug("subscribeEndpoint: " + subscribeEndpoint);
     this.app.post("/" + fn.name, (req, res) => {
       this.debug("calling fn: " + fn.name + " 1");

@@ -279,14 +279,14 @@ class ServerlessOfflineSns {
   }
 
   private async subscribeFromResource(subscription, location) {
-    this.debug("subscribe: " + subscription.fnName);
+  //  this.debug("subscribe: " + subscription.fnName);
     this.log(
       `Creating topic: "${subscription.options.topicName}" for fn "${subscription.fnName}"`
     );
     const data = await this.snsAdapter.createTopic(
       subscription.options.topicName
     );
-    this.debug("topic: " + JSON.stringify(data));
+  //  this.debug("topic: " + JSON.stringify(data));
     const fn = this.serverless.service.functions[subscription.fnName];
     await this.snsAdapter.subscribe(
       fn,
@@ -310,6 +310,10 @@ class ServerlessOfflineSns {
   public async subscribe(serverless, fnName, snsConfig, lambdasLocation) {
     this.debug("subscribe: " + fnName);
     const fn = serverless.service.functions[fnName];
+
+  this.debug("fn",fn);
+
+
 
     if (!fn.runtime) {
       fn.runtime = serverless.service.provider.runtime;
@@ -341,7 +345,7 @@ class ServerlessOfflineSns {
 
     this.log(`Creating topic: "${topicName}" for fn "${fnName}"`);
     const data = await this.snsAdapter.createTopic(topicName);
-    this.debug("topic: " + JSON.stringify(data));
+    //this.debug("topic: " + JSON.stringify(data));
     await this.snsAdapter.subscribe(
       fn,
       this.createHandler(fnName, fn, lambdasLocation),
