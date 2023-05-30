@@ -288,6 +288,24 @@ class ServerlessOfflineSns {
     );
   //  this.debug("topic: " + JSON.stringify(data));
     const fn = this.serverless.service.functions[subscription.fnName];
+
+
+    console.log("BERNI")
+
+    if(!fn || !subscription.fnName){
+      this.debug("ERROR!",JSON.stringify(subscription));
+    }
+
+  
+
+    if(!fn || !subscription.fnName){
+
+      this.debug("STACKTRACKE",Error().stack);
+      this.debug("CREATING HANDLER",JSON.stringify(data));
+      this.debug
+      return ;
+    }
+    
     await this.snsAdapter.subscribe(
       fn,
       this.createHandler(subscription.fnName, fn, location),
@@ -343,7 +361,11 @@ class ServerlessOfflineSns {
 
     this.log(`Creating topic: "${topicName}" for fn "${fnName}"`);
     const data = await this.snsAdapter.createTopic(topicName);
-    //this.debug("topic: " + JSON.stringify(data));
+    this.debug("topic: " + JSON.stringify(data));
+
+    if(!fn || !fnName){
+      this.debug("ERROR, topic!",topicName);
+    }
     await this.snsAdapter.subscribe(
       fn,
       this.createHandler(fnName, fn, lambdasLocation),
@@ -387,9 +409,11 @@ class ServerlessOfflineSns {
   public createHandler(fnName, fn, location) {
 
     if(!fn){
-      console.log("ERROR!",fnName);
+      console.log("ERROR! location:",location);
+      this.debug("STACKTRACKE",Error().stack);
+
     }
-    if (!fn|| !fn.runtime || fn.runtime.startsWith("nodejs")) {
+    if (!fn.runtime || fn.runtime.startsWith("nodejs")) {
       return this.createJavascriptHandler(fn, location);
     } else {
       return () => this.createProxyHandler(fnName, fn, location);

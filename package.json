@@ -24,7 +24,7 @@
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
   },
-  "author": "Berni-mad <matthew.stephen.james@gmail.com>",
+  "author": "Berni-mad ",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/berni-mad/serverless-offline-sns/issues"
@@ -46,30 +46,12 @@
     "@types/express": "^4.17.13",
     "@types/node": "^16.3.1",
     "@types/shelljs": "^0.8.9",
-    "all-contributors-cli": "^6.20.0",
     "aws-sdk-mock": "^5.8.0",
     "handlebars": "4.7.7",
     "sinon": "^11.1.1",
     "source-map-support": "^0.5.19",
-    "ts-loader": "^9.2.3",
+    "ts-loader": "^9.4.3",
     "ts-node": "^10.1.0",
     "typescript": "^4.3.5"
-  },
-  "nyc": {
-    "extension": [
-      ".ts",
-      ".tsx"
-    ],
-    "exclude": [
-      "**/*.d.ts"
-    ],
-    "include": [
-      "src/"
-    ],
-    "reporter": [
-      "html",
-      "lcov"
-    ],
-    "all": true
   }
 }
