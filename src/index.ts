@@ -187,6 +187,16 @@ class ServerlessOfflineSns {
       const topicArn = get(["Properties", "TopicArn", "Ref"], value);
       const topicName = get(["Properties", "TopicName"], resources[topicArn]);
       const fnName = this.getFunctionName(resourceName);
+
+      if(!fnName){
+
+        this.debug("resourceName",resourceName);
+        this.debug("topicName",topicName)
+        this.debug("topicArn",topicArn);
+        this.debug("filterPolicy",filterPolicy)
+        
+
+      }
       subscriptions.push({
         fnName,
         options: {
@@ -241,11 +251,12 @@ class ServerlessOfflineSns {
         }
       } else {
         const subscriptions = this.getResourceSubscriptions(this.serverless);
-        subscriptions.forEach((subscription) =>
+        subscriptions.forEach((subscription) =>{
+          if (!subscription) return 
           subscribePromises.push(
             this.subscribeFromResource(subscription, this.location)
           )
-        );
+          });
         Object.keys(this.serverless.service.functions).map((fnName) => {
           const fn = this.serverless.service.functions[fnName];
           subscribePromises.push(
@@ -294,9 +305,8 @@ class ServerlessOfflineSns {
 
     if(!fn || !subscription.fnName){
       this.debug("ERROR!",JSON.stringify(subscription));
+      this.debug()
     }
-
-  
 
     if(!fn || !subscription.fnName){
 
@@ -329,7 +339,7 @@ class ServerlessOfflineSns {
     this.debug("subscribe: " + fnName);
     const fn = serverless.service.functions[fnName];
 
-  this.debug("fn",JSON.stringify(fn));
+    this.debug("fn",JSON.stringify(fn));
 
     if (!fn.runtime) {
       fn.runtime = serverless.service.provider.runtime;
@@ -375,7 +385,7 @@ class ServerlessOfflineSns {
   }
 
   public async subscribeQueue(queueUrl, snsConfig) {
-    this.debug("subscribe: " + queueUrl);
+    //this.debug("subscribe: " + queueUrl);
     let topicName = "";
 
     // https://serverless.com/framework/docs/providers/aws/events/sns#using-a-pre-existing-topic
@@ -410,7 +420,7 @@ class ServerlessOfflineSns {
 
     if(!fn){
       console.log("ERROR! location:",location);
-      this.debug("STACKTRACKE",Error().stack);
+     // this.debug("STACKTRACKE",Error().stack);
 
     }
     if (!fn.runtime || fn.runtime.startsWith("nodejs")) {
