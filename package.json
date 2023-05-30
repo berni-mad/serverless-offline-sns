@@ -1,14 +1,12 @@
 {
   "name": "serverless-offline-sns",
-  "version": "0.76.0",
+  "version": "1.0.0",
   "description": "Serverless plugin to run a local SNS server and call lambdas with events notifications.",
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc -p src",
     "watch": "tsc -p src -w",
-    "test": "nyc ts-mocha \"test/**/*.ts\" --slow 300 -p src/tsconfig.json",
-    "lint": "tslint -c tslint.json 'src/**/*'",
-    "prepare": "yarn run lint && yarn test && yarn build",
+    "prepare": "yarn build",
     "prettier": "npx prettier --write src test",
     "upgrade": "npx npm-check-updates -u"
   },
@@ -26,45 +24,35 @@
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
   },
-  "author": "Matthew James <matthew.stephen.james@gmail.com>",
+  "author": "Berni-mad <matthew.stephen.james@gmail.com>",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/mj1618/serverless-offline-sns/issues"
   },
   "homepage": "https://github.com/mj1618/serverless-offline-sns#readme",
   "dependencies": {
-    "aws-sdk": "^2.943.0",
+    "aws-sdk": "^2.1083.0",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "lodash": "^4.17.21",
     "node-fetch": "^2.6.1",
-    "serverless": "^2.51.2",
+    "serverless": "^3.2.0",
     "shelljs": "^0.8.4",
-    "uuid": "^8.3.2",
+    "uuid": "^9.0.0",
     "xml": "^1.0.1"
   },
   "devDependencies": {
-    "@types/chai": "^4.2.21",
     "@types/express": "^4.17.13",
-    "@types/mocha": "^8.2.3",
     "@types/node": "^16.3.1",
     "@types/shelljs": "^0.8.9",
     "all-contributors-cli": "^6.20.0",
-    "aws-sdk-mock": "^5.2.1",
-    "chai": "^4.3.4",
+    "aws-sdk-mock": "^5.8.0",
     "handlebars": "4.7.7",
-    "istanbul": "^0.4.5",
-    "mocha": "^9.0.2",
-    "nyc": "^15.1.0",
-    "prettier": "2.3.2",
     "sinon": "^11.1.1",
     "source-map-support": "^0.5.19",
     "ts-loader": "^9.2.3",
-    "ts-mocha": "^10.0.0",
     "ts-node": "^10.1.0",
-    "tslint": "^5.20.1",
-    "tslint-config-prettier": "^1.18.0",
     "typescript": "^4.3.5"
   },
   "nyc": {
