@@ -54,7 +54,7 @@ export class SNSServer implements ISNSServer {
     this.app.all("/", (req, res) => {
     //  this.debug("hello request");
      // this.debug(JSON.stringify(req.body));
-      this.debug("ACTION:",req.body.Action);
+      this.debug("ACTION: "+req.body.Action);
       if (req.body.Action === "ListSubscriptions") {
         this.debug(
           "sending: " + xml(this.listSubscriptions(), { indent: "\t" })
